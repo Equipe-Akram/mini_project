@@ -1,0 +1,53 @@
+version: '3.9'
+
+services:
+  # Database Service
+  db:
+    image: postgres:14
+    container_name: our_postgres
+    environment:
+      POSTGRES_USER: yassine
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: our_backenddatabase
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # Backend Service 
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: our_backend
+    volumes:
+      - ./backend:/usr/src/app  # Bind Mount for live updates
+      - /usr/src/app/node_modules  # Avoid overwriting node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: yassine
+      DB_PASSWORD: 1234
+      DB_NAME: our_backenddatabase
+    command: npm run dev  # !!
+
+  # Frontend Service 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: our_frontend
+    volumes:
+      - ./frontend:/usr/src/app  # Bind Mount for live updates
+      - /usr/src/app/node_modules  # Avoid overwriting node_modules
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend
+    command: npm run serve  # !!
+
+volumes:
+  db-data:
