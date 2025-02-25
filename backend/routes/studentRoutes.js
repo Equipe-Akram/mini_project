@@ -4,9 +4,9 @@ const pool = require('../config/db.js')
 
 //const studentsController = require('../controllers/studentsController')
 router.post('/student', async (req, res) => {
-    const {id, cin, name, email, note} = req.body
+    const {nom, prenom, note} = req.body
     try {
-    const result = await pool.query('INSERT INTO student (id, cin, name, email, note) VALUES ($1, $2, $3, $4, $5) RETURNING *', [id, cin, name, email, note])
+    const result = await pool.query('INSERT INTO student (nom, prenom, note) VALUES ($1, $2, $3) RETURNING *', [nom, prenom, note])
     res.status(201).json(result.rows[0]);
 } catch (error) {
     res.status(500).json({ error: 'Failed to add student'})
