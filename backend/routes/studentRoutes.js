@@ -1,6 +1,6 @@
-const express = require('express')
+import express from 'express'
 const router = express.Router()
-const pool = require('../config/db.js')
+import pool from '../config/db.js'
 
 //const studentsController = require('../controllers/studentsController')
 router.post('/student', async (req, res) => {
@@ -76,6 +76,7 @@ router.put('/student/:id', studentControllers.editStudentInfo)
 router.delete('/student/:id', studentControllers.deleteStudent)
  */
 
-module.exports = router
+export default router;
+
 
 
