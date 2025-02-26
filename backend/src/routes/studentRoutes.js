@@ -1,9 +1,16 @@
 import express from 'express'
 const router = express.Router()
-import pool from '../config/db.js'
+import {getAllStudents, getStudentById, addStudent} from '../controllers/studentController.js'
 
-//const studentsController = require('../controllers/studentsController')
-router.post('/student', async (req, res) => {
+router.get('/', getAllStudents)
+router.get('/:id', getStudentById)
+router.post('/', addStudent)
+/* router.put('/:id', studentControllers.editStudentInfo)
+router.delete('/:id', studentControllers.deleteStudent)
+ */
+
+
+/* router.post('/student', async (req, res) => {
     const {nom, prenom, note} = req.body
     try {
     const result = await pool.query('INSERT INTO student (nom, prenom, note) VALUES ($1, $2, $3) RETURNING *', [nom, prenom, note])
@@ -68,12 +75,6 @@ router.get('/student/:id', async (req, res) => {
         console.log(error);
     }
 });
-/* 
-router.get('/student', studentControllers.getAllStudents)
-router.get('/student/:id', studentControllers.getStudentById)
-router.post('/student', studentControllers.addStudent)
-router.put('/student/:id', studentControllers.editStudentInfo)
-router.delete('/student/:id', studentControllers.deleteStudent)
  */
 
 export default router;
