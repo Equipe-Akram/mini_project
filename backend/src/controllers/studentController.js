@@ -1,10 +1,7 @@
 import {getAllStudentsService, getStudentByIdService, addStudentService, updateStudentService, deleteStudentService} from '../models/studentModel.js'
 // Standarized response function
-const handleResponse = (res, status, message, data = null) => {
-    status,
-    message,
-    data
-}
+const handleResponse = (res, status, message, data = null) => 
+    res.status(status).json({ status, message, data })
 
 export const getAllStudents = async (req, res, next) => {
     try {
