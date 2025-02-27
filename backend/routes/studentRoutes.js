@@ -3,7 +3,7 @@ const router = express.Router()
 import pool from '../config/db.js'
 
 //const studentsController = require('../controllers/studentsController')
-router.post('/student', async (req, res) => {
+router.post('/', async (req, res) => {
     const {nom, prenom, note} = req.body
     try {
     const result = await pool.query('INSERT INTO student (nom, prenom, note) VALUES ($1, $2, $3) RETURNING *', [nom, prenom, note])
@@ -13,7 +13,7 @@ router.post('/student', async (req, res) => {
     console.log(error)
 }
 })
-router.get('/student', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM student')
         res.json(result.rows)
@@ -21,7 +21,7 @@ router.get('/student', async (req, res) => {
         res.status(500).json({ error: 'Failed to retrieve students' });
     }
 })
-router.delete('/student/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -38,7 +38,7 @@ router.delete('/student/:id', async (req, res) => {
     }
 });
 
-router.put('/student/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     const { id } = req.params;  
     const { nom, prenom, note } = req.body;  
     try {
@@ -53,7 +53,7 @@ router.put('/student/:id', async (req, res) => {
 });
 
 
-router.get('/student/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     const { id } = req.params;  // Get student ID from URL parameter
 
     try {

@@ -6,7 +6,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-app.use('/api', studentRoutes)
+app.use('/api/students', studentRoutes)
 
 
 export default app;

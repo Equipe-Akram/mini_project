@@ -1,0 +1,6 @@
+CREATE TABLE etudiant (
+  id SERIAL PRIMARY KEY,
+  nom VARCHAR(100) NOT NULL,
+  prenom VARCHAR(100) NOT NULL,
+  note DECIMAL(4,2)
+);
