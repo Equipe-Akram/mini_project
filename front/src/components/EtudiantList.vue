@@ -1,6 +1,16 @@
 <template>
     <div class="list-container">
       <h2>Liste des étudiants</h2>
+      <div class="filters">
+    <label for="sort">Trier par :</label>
+    <select id="sort" v-model="sortKey">
+      <option value="">Aucun</option>
+      <option value="nom">Nom</option>
+      <option value="prenom">Prénom</option>
+      <option value="note">Note</option>
+    </select>
+    </div>
+  
       <table>
         <thead>
           <tr>
@@ -12,17 +22,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="etudiant in etudiants" :key="etudiant.id">
-            <td>{{ etudiant.id }}</td>
-            <td>{{ etudiant.nom }}</td>
-            <td>{{ etudiant.prenom }}</td>
-            <td>{{ etudiant.note }}</td>
-            <td>
-              <button @click="$emit('edit-student', etudiant)">Modifier</button>
-              <button @click="$emit('delete-student', etudiant.id)">Supprimer</button>
-            </td>
-          </tr>
-        </tbody>
+    <tr v-for="etudiant in sortedEtudiants" :key="etudiant.id">
+      <td>{{ etudiant.id }}</td>
+      <td>{{ etudiant.nom }}</td>
+      <td>{{ etudiant.prenom }}</td>
+      <td>{{ etudiant.note }}</td>
+      <td>
+        <button @click="$emit('edit-student', etudiant)">Modifier</button>
+        <button @click="$emit('delete-student', etudiant.id)">Supprimer</button>
+      </td>
+    </tr>
+  </tbody>
+  
       </table>
     </div>
   </template>
@@ -31,6 +42,19 @@
   export default {
     props: {
       etudiants: Array
+    },
+    data() {
+      return {
+        sortKey: '' // La clé utilisée pour le tri (vide par défaut)
+      };
+    },
+    computed: {
+      sortedEtudiants() {
+        if (!this.sortKey) return this.etudiants; // Si aucun tri sélectionné
+        return [...this.etudiants].sort((a, b) => {
+          return a[this.sortKey] > b[this.sortKey] ? 1 : -1;
+        });
+      }
     }
   };
   </script>
@@ -136,6 +160,19 @@
     background-color: red;
     color: white;
   }
-  </style>
+  .filters {
+    margin-bottom: 10px;
+  }
   
+  label {
+    margin-right: 10px;
+  }
+  
+  select {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  </style>
   
