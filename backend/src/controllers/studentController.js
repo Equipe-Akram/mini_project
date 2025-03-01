@@ -7,8 +7,9 @@ const handleResponse = (res, status, message, data = null) =>
     res.status(status).json({ status, message, data })
 
 export const getAllStudents = async (req, res, next) => {
+    const userId = req.userId
     try {
-        const result = await studentModel.getAllStudents()
+        const result = await studentModel.getAllStudents(userId)
         handleResponse(res, 200, 'Students retrieved successfully', result)
     } catch (err) {
         next(err)
@@ -16,8 +17,9 @@ export const getAllStudents = async (req, res, next) => {
 }
 export const getStudentById = async (req, res, next) => {
     const {id} = req.params
+    const userId = req.userId
     try {
-        const result = await  studentModel.getStudentById(id)
+        const result = await  studentModel.getStudentById(userId, id)
         if (!result) return handleResponse(res, 404, 'Student not found')
         handleResponse(res, 200, 'Student retrieved successfully', result)
     } catch (err) {
@@ -38,8 +40,9 @@ export const addStudent = async (req, res, next) => {
 export const updateStudent = async (req, res, next) => {
     const { id } = req.params
     const { nom, prenom, note } = req.body
+    const userId = req.userId
     try {
-        const result = await  studentModel.updateStudent(id, nom, prenom, note)
+        const result = await  studentModel.updateStudent(nom, prenom, note, id, userId)
         if (!result) return handleResponse(res, 404, 'Student not found')
         handleResponse(res, 200, 'Student updated successfully', result)
     } catch (err) {
@@ -48,8 +51,9 @@ export const updateStudent = async (req, res, next) => {
 }
 export const deleteStudent = async (req, res, next) => {
     const { id } = req.params
+    const userId = req.userId
     try {
-        const result = await  studentModel.deleteStudent(id)
+        const result = await  studentModel.deleteStudent(id, userId)
         if (!result) return handleResponse(res, 404, 'Student not found')
         handleResponse(res, 200, 'Student deleted successfully', result)
     } catch (err) {
