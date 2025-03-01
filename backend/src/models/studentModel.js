@@ -7,7 +7,7 @@ export const getAllStudents = async (userId) => {
 export const getStudentById = async (userId, id) => {
     const result = await pool.query('SELECT * FROM student s JOIN professor_student ps ON s.id = ps.student_id WHERE ps.professor_id = $1 and s.id = $2', [userId, id])
     return result.rows[0]
-    }
+}
 export const addStudent = async (nom, prenom, note) => {
     const result = await pool.query('INSERT INTO student (nom, prenom, note) VALUES ($1, $2, $3) RETURNING *', [nom, prenom, note])
     return result.rows[0]

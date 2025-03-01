@@ -13,11 +13,10 @@ app.use(express.json())
 
 // Routes
 app.use('/auth', authRoutes)
-app.use('/api/students', authMiddleware, studentRoutes)
+app.use('/api/students', authMiddleware,studentRoutes)
 
 // error handling middleware
 app.use(errorHandling)
-
 
 
 export default app;
