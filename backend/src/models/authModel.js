@@ -9,7 +9,7 @@ export const register = async (nom, prenom, email, password) => {
     }
 }
 
-export const login = async (email, password) => {
+export const login = async (email) => {
     try {
         const result = await pool.query('SELECT * FROM professor WHERE email = $1', [email]);
         return result.rows[0];
