@@ -1,5 +1,6 @@
 
 import * as studentModel from '../models/studentModel.js'
+import {assignStudentToProfessor}  from '../models/relationModel.js'
 
 // Standarized response function
 const handleResponse = (res, status, message, data = null) => 
@@ -25,9 +26,11 @@ export const getStudentById = async (req, res, next) => {
 }
 export const addStudent = async (req, res, next) => {
     const { nom, prenom, note } = req.body
+    const userId = req.userId
     try {
         const result = await  studentModel.addStudent(nom, prenom, note)
-        handleResponse(res, 201, 'Student added successfully', result)
+        const relation = assignStudentToProfessor(userId, result.id)
+        handleResponse(res, 201, 'Student added successfully', relation)
     } catch (err) {
         next(err)
     }

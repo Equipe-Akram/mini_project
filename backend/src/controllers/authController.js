@@ -18,7 +18,6 @@ export const register = async (req, res, next) => {
 }
 export const login = async (req, res) => {
     const { email, password } = req.body;
-    // encrypt password
     try {
         const user = await authModel.login(email);
         if (!user) {
