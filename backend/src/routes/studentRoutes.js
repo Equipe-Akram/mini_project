@@ -6,6 +6,7 @@ router.get('/', studentController.getAllStudents)
 router.get('/:id', studentController.getStudentById)
 router.post('/', studentController.addStudent)
 router.put('/:id', studentController.updateStudent)
+router.patch('/:id', studentController.updateStudentPartial)
 router.delete('/:id', studentController.deleteStudent)
 
 
