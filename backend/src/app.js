@@ -4,6 +4,8 @@ import authRoutes from './routes/authRoutes.js'
 import studentRoutes from './routes/studentRoutes.js'
 import errorHandling from './middlewares/errorHandler.js'
 import authMiddleware from './middlewares/authMiddleware.js'
+import * as inputValidator from './middlewares/inputValidator.js'
+
 
 const app = express()
 
@@ -13,7 +15,8 @@ app.use(express.json())
 
 // Routes
 app.use('/auth', authRoutes)
-app.use('/api/students', authMiddleware,studentRoutes)
+app.use('/api/students', authMiddleware, inputValidator.studentValidation, studentRoutes)
+
 
 // error handling middleware
 app.use(errorHandling)

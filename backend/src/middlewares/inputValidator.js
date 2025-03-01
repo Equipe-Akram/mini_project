@@ -16,8 +16,6 @@ const studentSchema = Joi.object({
     note: Joi.number().min(0).max(20).required(),
 })
 
-
-
 export const registerValidation = (req, res, next) => {
     const {error} = userSchema.validate(req.body)
     if (error) {
@@ -32,11 +30,10 @@ export const loginValidation = (req, res, next) => {
     }
     next()
 }
-export const studentValidation = (req, res, next) => {
-    const {error} = studentSchema.validate(req.body)
-    if (error) {
-        return res.status(400).json({ status: 400, message: error.details[0].message })
-    }
+export const studentValidation = (req,res,next) => {
+    const {nom, prenom, note} = req.body
+    const {error} = studentSchema.validate({nom, prenom, note})
+        if (error){return res.status(400).json({ status: 400, message: error.details[0].message })}
     next()
 }
 
