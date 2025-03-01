@@ -9,6 +9,7 @@ export const getStudentById = async (userId, id) => {
     return result.rows[0]
     }
 export const addStudent = async (nom, prenom, note) => {
+    const result = await pool.query('INSERT INTO student (nom, prenom, note) VALUES ($1, $2, $3) RETURNING *', [nom, prenom, note])
     return result.rows[0]
 }
 export const updateStudent = async (nom, prenom, note, id, userId) => {

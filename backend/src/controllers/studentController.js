@@ -32,7 +32,7 @@ export const addStudent = async (req, res, next) => {
     try {
         const result = await  studentModel.addStudent(nom, prenom, note)
         const relation = assignStudentToProfessor(userId, result.id)
-        handleResponse(res, 201, 'Student added successfully', relation)
+        handleResponse(res, 201, 'Student added successfully', result)
     } catch (err) {
         next(err)
     }
