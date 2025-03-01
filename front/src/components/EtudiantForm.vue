@@ -1,12 +1,12 @@
 <template>
     <div class="form-container">
-      <h2 v-if="isEditing">Modifier un étudiant</h2>
-      <h2 v-else>Ajouter un étudiant</h2>
+      <h2 v-if="isEditing">Modifier un étudiant</h2>
+      <h2 v-else>Ajouter un étudiant</h2>
   
       <form @submit.prevent="submitForm">
         <label>Nom :</label>
         <input v-model="student.nom" type="text" required />
-        <label>Prénom :</label>
+        <label>Prénom :</label>
         <input v-model="student.prenom" type="text" required />
         <label>Note :</label>
         <input v-model="student.note" type="number" step="0.1" required />
@@ -60,7 +60,7 @@
   
   <style scoped>
   .form-container {
-    width: 40%;
+    width: 500px;
     margin: 20px auto;
     padding: 20px;
     background: #f9f9f9;
@@ -99,4 +99,3 @@
     color: white;
   }
   </style>
-  

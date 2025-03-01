@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>Gestion des étudiants</h1>
+    <h1>Gestion des étudiants</h1>
 
     <EtudiantForm 
       @add-student="addStudent" 
@@ -42,7 +42,7 @@ export default {
         const response = await apiService.getAllStudents();
         this.etudiants = response.data;
       } catch (error) {
-        console.error("Erreur lors de la récupération des étudiants :", error);
+        console.error("Erreur lors de la récupération des étudiants :", error);
       }
     },
     async addStudent(student) {
@@ -73,7 +73,7 @@ export default {
         }
         this.studentToEdit = null;
       } catch (error) {
-        console.error("Erreur lors de la mise à jour :", error);
+        console.error("Erreur lors de la mise à jour :", error);
       }
     },
     cancelEdit() {
@@ -93,43 +93,3 @@ h1 {
   text-align: center;
 }
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  

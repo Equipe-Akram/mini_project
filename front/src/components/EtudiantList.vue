@@ -1,12 +1,12 @@
 <template>
     <div class="list-container">
-      <h2>Liste des étudiants</h2>
+      <h2>Liste des étudiants</h2>
       <div class="filters">
     <label for="sort">Trier par :</label>
     <select id="sort" v-model="sortKey">
       <option value="">Aucun</option>
       <option value="nom">Nom</option>
-      <option value="prenom">Prénom</option>
+      <option value="prenom">Prénom</option>
       <option value="note">Note</option>
     </select>
     </div>
@@ -16,7 +16,7 @@
           <tr>
             <th>ID</th>
             <th>Nom</th>
-            <th>Prénom</th>
+            <th>Prénom</th>
             <th>Note</th>
             <th>Actions</th>
           </tr>
@@ -45,18 +45,20 @@
     },
     data() {
       return {
-        sortKey: '' // La clé utilisée pour le tri (vide par défaut)
+        sortKey: '' // La clé utilisée pour le tri (vide par défaut)
       };
     },
     computed: {
       sortedEtudiants() {
-        if (!this.sortKey) return this.etudiants; // Si aucun tri sélectionné
+        if (!this.sortKey) return this.etudiants; // Si aucun tri sélectionné
         return [...this.etudiants].sort((a, b) => {
           return a[this.sortKey] > b[this.sortKey] ? 1 : -1;
         });
       }
     }
   };
+  
+  
   </script>
   
   <style scoped>
@@ -102,7 +104,7 @@
   
   <style scoped>
   .list-container {
-    width: 50%;
+    width: 100%;
     margin: auto;
     text-align: center;
   }
@@ -175,4 +177,3 @@
   }
   
   </style>
-  
