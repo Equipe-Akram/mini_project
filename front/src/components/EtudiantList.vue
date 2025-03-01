@@ -63,12 +63,12 @@
   
   <style scoped>
   .list-container {
-    width: 80%;
+    width: 100px ;
     margin: 20px auto;
   }
   
   table {
-    width: 100%;
+    width: 200px ;
     border-collapse: collapse;
   }
   
@@ -104,7 +104,7 @@
   
   <style scoped>
   .list-container {
-    width: 100%;
+    width: 50%;
     margin: auto;
     text-align: center;
   }
