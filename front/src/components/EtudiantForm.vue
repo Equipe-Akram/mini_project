@@ -60,7 +60,7 @@ export default {
 
 <style scoped>
 .form-container {
-  width:850px ;
+  width:850px;
   margin: 20px auto;
   padding: 20px;
   background: #f9f9f9;

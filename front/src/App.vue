@@ -40,7 +40,7 @@ export default {
     async fetchStudents() {
       try {
         const response = await apiService.getAllStudents();
-        this.etudiants = response.data;
+        this.etudiants = response.data.data;
       } catch (error) {
         console.error("Erreur lors de la récupération des étudiants :", error);
       }
@@ -48,7 +48,7 @@ export default {
     async addStudent(student) {
       try {
         const response = await apiService.addStudent(student);
-        this.etudiants.push(response.data);
+        this.etudiants.push(response.data.data)
       } catch (error) {
         console.error("Erreur lors de l'ajout :", error);
       }
@@ -92,4 +92,4 @@ body {
 h1 {
   text-align: center;
 }
-</style>
+</style> 
