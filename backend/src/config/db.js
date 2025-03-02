@@ -3,14 +3,16 @@ const { Pool } = pkg;
 import 'dotenv/config';
 
 const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT,
+  host: process.env.DB_HOST,         
+  port: process.env.DB_PORT || 5432,
+  user: process.env.DB_USER,         
+  password: process.env.DB_PASSWORD, 
+  database: process.env.DB_NAME      
 });
 
-pool.connect()
-    .then(() => console.log('Connected to PostgreSQL'))
-    .catch(err => console.error('Database connection failed:', err));
-export  default pool;
+pool.on('error', (err) => {
+  console.error('Unexpected error on idle PostgreSQL client', err);
+  process.exit(-1);
+});
+
+export default pool;
