@@ -11,13 +11,12 @@ services:
       - "5432:5432"  
     volumes:
       - db-data:/var/lib/postgresql/data
-    
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U yassine -d our_backenddatabase || exit 1"]
       interval: 5s
       timeout: 5s
       retries: 5
-    
+
   flyway:
     image: flyway/flyway:9.16.0
     container_name: our_flyway
@@ -28,6 +27,41 @@ services:
     volumes:
       - ./backend/flyway/flyway.conf:/flyway/conf/flyway.conf
       - ./backend/sql:/flyway/sql
-  
+
+
+  backend:
+    container_name: our_backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+       condition: service_healthy
+
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - DB_HOST=db 
+      - DB_PORT=5432
+      - DB_USER=yassine
+      - DB_PASSWORD=1234
+      - DB_DATABASE=our_backenddatabase
+
+  frontend:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    container_name: our_frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./front:/usr/src/app
+      - /usr/src/app/node_modules
+
 volumes:
   db-data:
