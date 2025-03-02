@@ -1,24 +1,19 @@
 version: '3.8'
-
 services:
   db:
-    image: postgres:15
+    image: postgres:14
     container_name: our_postgres
-    restart: unless-stopped
-
-    env_file:
-      - .env
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: yassine
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: our_backenddatabase
     ports:
-      - "5432:5432"  # Pour accéder à la base en local (à désactiver en prod)!!!!
+      - "5432:5432"  
     volumes:
       - db-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB} || exit 1"]
-      interval: 10s
+      test: ["CMD-SHELL", "pg_isready -U yassine -d our_backenddatabase || exit 1"]
+      interval: 5s
       timeout: 5s
       retries: 5
 
@@ -27,57 +22,46 @@ services:
     container_name: our_flyway
     depends_on:
       db:
-        condition: service_healthy # Exécute d’abord "validate" puis "migrate"
-    command: [
-      "-url=jdbc:postgresql://db:5432/${POSTGRES_DB}",
-      "-user=${POSTGRES_USER}",
-      "-password=${POSTGRES_PASSWORD}",
-      "validate",
-      "migrate"
-    ]
+        condition: service_healthy
+    command: ["migrate"] 
     volumes:
       - ./backend/flyway/flyway.conf:/flyway/conf/flyway.conf
       - ./backend/sql:/flyway/sql
 
+
   backend:
+    container_name: our_backend
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: our_backend
-    depends_on:
-      db:
-        condition: service_healthy
-    environment:
-      DB_HOST: db
-      DB_USER: ${POSTGRES_USER}
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
-      DB_NAME: ${POSTGRES_DB}
-    volumes:
-      - ./backend:/usr/src/app         # Bind mount  (live update en dev)
-      - /usr/src/app/node_modules     
     ports:
       - "3000:3000"
-    command: npm run dev
-    #  "npm start"  mode production
+    depends_on:
+      db:
+       condition: service_healthy
+
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - DB_HOST=db 
+      - DB_PORT=5432
+      - DB_USER=yassine
+      - DB_PASSWORD=1234
+      - DB_DATABASE=our_backenddatabase
 
   frontend:
     build:
       context: ./front
       dockerfile: Dockerfile
     container_name: our_frontend
+    ports:
+      - "5173:5173"
     depends_on:
       - backend
     volumes:
-      - ./front:/usr/src/app       # Bind mount (live update en dev)
+      - ./front:/usr/src/app
       - /usr/src/app/node_modules
-    ports:
-      - "8080:8080"
-    command: npm run dev
 
 volumes:
   db-data:
-
-networks:
-  default:
-    name: Akram-network
-    driver: bridge
