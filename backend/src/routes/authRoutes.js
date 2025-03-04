@@ -5,6 +5,7 @@ import * as inputValidator from '../middlewares/inputValidator.js'
 
 router.post('/register', inputValidator.registerValidation, authController.register)
 router.post('/login', inputValidator.loginValidation, authController.login)
-router.post('/refresh', authController.refreshToken);
+router.get('/refresh', authController.refreshToken);
+router.post('/logout', authController.logout)
 
 export default router;

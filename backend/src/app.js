@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import authRoutes from './routes/authRoutes.js'
 import studentRoutes from './routes/studentRoutes.js'
 import errorHandling from './middlewares/errorHandler.js'
@@ -10,8 +11,10 @@ import * as inputValidator from './middlewares/inputValidator.js'
 const app = express()
 
 // Middleware
-app.use(cors())
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(express.json())
+app.use(cookieParser())
+
 
 // Routes
 app.use('/auth', authRoutes)
