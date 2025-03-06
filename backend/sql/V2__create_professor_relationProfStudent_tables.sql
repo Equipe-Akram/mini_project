@@ -10,6 +10,6 @@ CREATE TABLE professor_student (
     professor_id INT NOT NULL,
     student_id INT NOT NULL,
     PRIMARY KEY (professor_id, student_id),
-    FOREIGN KEY (professor_id) REFERENCES professors(id) ON DELETE CASCADE,
-    FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE
+    FOREIGN KEY (professor_id) REFERENCES professor(id) ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE
 );

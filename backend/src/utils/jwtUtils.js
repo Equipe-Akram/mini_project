@@ -4,7 +4,7 @@ dotenv.config()
 
 export const generateToken = (user) => {
     const pyload = { id: user.id, email: user.email }
-    return jwt.sign(pyload, process.env.JWT_SECRET, { expiresIn: '1min'  })
+    return jwt.sign(pyload, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION });
 }
 
 export const generateRefreshToken = (user) => {
