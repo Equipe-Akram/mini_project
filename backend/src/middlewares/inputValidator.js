@@ -17,7 +17,7 @@ const studentSchema = Joi.object({
 })
 const resetPasswordSchema = Joi.object({
     password: Joi.string().min(6).required(),
-    confirmPassword: Joi.string().valid(Joi.ref('password')).required()
+    confirmPassword: Joi.string().valid(Joi.ref('password')).required().strict()
 })
 
 export const registerValidation = (req, res, next) => {
@@ -43,7 +43,7 @@ export const studentValidation = (req,res,next) => {
 
 export const resetPasswordValidation = (req, res, next) => {
     const {password, confirmPassword} = req.body
-    const {error} = resetPasswordSchema.validate(password, confirmPassword)
+    const {error} = resetPasswordSchema.validate({password, confirmPassword})
     if (error) {
         return res.status(400).json({ status: 400, message: error.details[0].message })
     }

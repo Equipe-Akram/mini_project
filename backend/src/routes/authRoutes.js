@@ -9,6 +9,6 @@ router.post('/login', inputValidator.loginValidation, authController.login)
 router.get('/refresh', authController.refreshToken);
 router.post('/logout', authController.logout)
 router.post('/forgot-password', authController.forgotPassword)
-router.post('/reset-password/:token', authController.resetPassword)
+router.post('/reset-password/:token', inputValidator.resetPasswordValidation, authController.resetPassword)
 
 export default router;
