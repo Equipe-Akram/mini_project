@@ -1,0 +1,1 @@
+ALTER TABLE professor ADD COLUMN is_verified BOOLEAN DEFAULT FALSE;
