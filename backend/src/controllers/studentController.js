@@ -10,6 +10,7 @@ export const getAllStudents = async (req, res, next) => {
     const userId = req.userId
     try {
         const result = await studentModel.getAllStudents(userId)
+        if (!result) return handleResponse(res, 404, 'No students found')
         handleResponse(res, 200, 'Students retrieved successfully', result)
     } catch (err) {
         next(err)
@@ -29,7 +30,6 @@ export const getStudentById = async (req, res, next) => {
 export const addStudent = async (req, res, next) => {
     const { nom, prenom, note } = req.body
     const userId = req.userId
-    console.log(userId)
     try {     
         const result = await  studentModel.addStudent(nom, prenom, note)
         const relation = assignStudentToProfessor(userId, result.id)

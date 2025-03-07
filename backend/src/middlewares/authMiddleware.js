@@ -7,7 +7,6 @@ const authMiddleware = async (req, res, next) => {
         if (!token ){
             return res.status(401).send({message: 'no token provided'})
         }
-        console.log(token)
         const decoded = jwtUtils.verifyToken(token)
         if (!decoded) {
             return res.status(403).send({message: 'invalid token'})

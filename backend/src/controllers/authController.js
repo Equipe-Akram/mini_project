@@ -97,7 +97,6 @@ export const refreshToken = async (req, res, next) => {
 
         const newAccessToken = jwtUtils.generateToken({id: user.id,email:user.email})
         const newRefreshToken = jwtUtils.generateRefreshToken({id: user.id,email:user.email})
-        console.log(user.id)
 
         await Token.save(user.id, newRefreshToken)
 
@@ -127,7 +126,6 @@ export const forgotPassword = async (req, res, next) => {
         await resetTokenModel.save(email, resetToken, new Date(Date.now() + 3600000))
 
         const resetLink = `${process.env.CLIENT_URL}/auth/reset-password/${resetToken}`
-        console.log(email)
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: email,
@@ -143,7 +141,6 @@ export const forgotPassword = async (req, res, next) => {
 export const resetPassword = async (req, res, next) => {
     const { password } = req.body;
     const { token } = req.params;
-    console.log(token)
     try {
         const decoded = jwtUtils.verifyToken(token)
         const email = decoded.email
