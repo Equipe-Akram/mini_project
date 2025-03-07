@@ -55,6 +55,31 @@ export const verifyAccount = async (req, res, next) => {
         next(error)
     }
 }
+export const resendEmail = async (req, res, next) => {
+    const { email } = req.body;
+    try {
+        const user = await authModel.login(email);
+        if (!user) {
+            return res.status(400).send({message : 'Email not found'})
+        }
+        if (user.is_verified) {
+            return res.status(401).send({message : 'Account already verified'})
+        }
+        const verifyToken = jwtUtils.generateToken(user)
+        await verificationTokenModel.save(email, verifyToken, new Date(Date.now() + 3600000))
+        const verifyLink = `${process.env.CLIENT_URL}/auth/verify/${verifyToken}`
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: 'Account Verification',
+            text: `Click on the link to verify your account: ${verifyLink}`
+        };
+        await nodeMailerUtils.transporter.sendMail(mailOptions);
+        res.json({ message: "Verification email resent successfully" });
+    } catch (error) {
+        next(error)
+    }
+}
 export const login = async (req, res, next) => {
     const { email, password } = req.body;
     try {
