@@ -8,26 +8,10 @@ export const register = async (nom, prenom, email, password) => {
         throw error;
     }
 }
-export const verifyAccount = async (email) => {
-    try {
-        const result = await pool.query('UPDATE professor SET is_verified = true WHERE email = $1 RETURNING *', [email]);
-        return result.rows[0];
-    } catch (error) {
-        throw error;
-    }
-}
 
 export const login = async (email) => {
     try {
         const result = await pool.query('SELECT * FROM professor WHERE email = $1', [email]);
-        return result.rows[0];
-    } catch (error) {
-        throw error;
-    }
-}
-export const resetPassword = async (email, password) => {
-    try {
-        const result = await pool.query('UPDATE professor SET password = $1 WHERE email = $2 RETURNING *', [password, email]);
         return result.rows[0];
     } catch (error) {
         throw error;
