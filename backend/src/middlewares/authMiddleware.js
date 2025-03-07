@@ -1,7 +1,8 @@
 import * as jwtUtils from '../utils/jwtUtils.js';
 
 const authMiddleware = async (req, res, next) => {
-    const token = req.header('authorization').split(' ')[1]
+    const token = req.header('authorization').split(' ')[1];
+
     if (!token ){
         return res.status(401).send({message: 'no token provided'})
     }
