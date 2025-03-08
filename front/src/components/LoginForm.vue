@@ -22,7 +22,7 @@
       <p v-if="message" class="message">{{ message }}</p>
     </form>
     <p>
-      <router-link to="/auth/login">Déjà un compte ? Se connecter</router-link>
+      <router-link to="/auth/login">Se connecter</router-link>
     </p>
   </div>
 </template>
