@@ -1,95 +1,85 @@
 <template>
   <div id="app">
-    <h1>Gestion des étudiants</h1>
+    
+    <nav v-if="isAuthenticated">
+      <router-link to="/students">Étudiants</router-link> |
+      <button @click="logout">Déconnexion</button>
+    </nav>
 
-    <EtudiantForm 
-      @add-student="addStudent" 
-      @update-student="updateStudent"
-      @cancel-edit="cancelEdit"
-      :studentToEdit="studentToEdit"
-    />
-
-    <EtudiantList 
-      :etudiants="etudiants" 
-      @delete-student="deleteStudent"
-      @edit-student="editStudent"
-    />
+    
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import EtudiantList from './components/EtudiantList.vue';
-import EtudiantForm from './components/EtudiantForm.vue';
-import apiService from './services/apiService';
+import { useAuthStore } from '@/stores/authStore';
 
 export default {
-  components: {
-    EtudiantList,
-    EtudiantForm
-  },
+  name: 'App',
   data() {
     return {
-      etudiants: [],
-      studentToEdit: null
+      isAuthenticated: false, 
     };
   },
-  mounted() {
-    this.fetchStudents();
+  created() {
+    this.checkAuthentication();
   },
   methods: {
-    async fetchStudents() {
-      try {
-        const response = await apiService.getAllStudents();
-        this.etudiants = response.data.data;
-      } catch (error) {
-        console.error("Erreur lors de la récupération des étudiants :", error);
-      }
+    
+    checkAuthentication() {
+      const authStore = useAuthStore();
+      this.isAuthenticated = !!authStore.accessToken; 
     },
-    async addStudent(student) {
-      try {
-        const response = await apiService.addStudent(student);
-        this.etudiants.push(response.data.data)
-      } catch (error) {
-        console.error("Erreur lors de l'ajout :", error);
-      }
+
+   
+    logout() {
+      const authStore = useAuthStore();
+      authStore.clearTokens(); 
+      this.isAuthenticated = false; 
+      this.$router.push('/auth/login'); 
     },
-    async deleteStudent(id) {
-      try {
-        await apiService.deleteStudent(id);
-        this.etudiants = this.etudiants.filter(etudiant => etudiant.id !== id);
-      } catch (error) {
-        console.error("Erreur lors de la suppression :", error);
-      }
+  },
+  watch: {
+
+    $route() {
+      this.checkAuthentication();
     },
-    editStudent(student) {
-      this.studentToEdit = { ...student };
-    },
-    async updateStudent(updatedStudent) {
-      try {
-        await apiService.updateStudent(updatedStudent.id, updatedStudent);
-        const index = this.etudiants.findIndex(et => et.id === updatedStudent.id);
-        if (index !== -1) {
-          this.etudiants.splice(index, 1, updatedStudent);
-        }
-        this.studentToEdit = null;
-      } catch (error) {
-        console.error("Erreur lors de la mise à jour :", error);
-      }
-    },
-    cancelEdit() {
-      this.studentToEdit = null;
-    }
-  }
+  },
 };
 </script>
 
-
-<style>
-body {
+<style scoped>
+#app {
   font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 20px;
 }
 
-h1 {
-  text-align: center;
+nav {
+  margin-bottom: 20px;
 }
-</style> 
+
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #007bff;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  background-color: #c82333;
+}
+</style>

@@ -1,16 +1,14 @@
 <template>
   <div class="form-container">
-    <h2 v-if="isEditing">Modifier un étudiant</h2>
-    <h2 v-else>Ajouter un étudiant</h2>
-
+    <h2 v-if="isEditing">Modifier un étudiant</h2>
+    <h2 v-else>Ajouter un étudiant</h2>
     <form @submit.prevent="submitForm">
       <label>Nom :</label>
       <input v-model="student.nom" type="text" required />
-      <label>Prénom :</label>
+      <label>Prénom :</label>
       <input v-model="student.prenom" type="text" required />
       <label>Note :</label>
       <input v-model="student.note" type="number" step="0.1" required />
-
       <button type="submit">{{ isEditing ? "Modifier" : "Ajouter" }}</button>
       <button type="button" v-if="isEditing" @click="cancelEdit">Annuler</button>
     </form>
@@ -20,12 +18,12 @@
 <script>
 export default {
   props: {
-    studentToEdit: Object
+    studentToEdit: Object,
   },
   data() {
     return {
       student: { id: null, nom: '', prenom: '', note: '' },
-      isEditing: false
+      isEditing: false,
     };
   },
   watch: {
@@ -34,7 +32,7 @@ export default {
         this.student = { ...newVal };
         this.isEditing = true;
       }
-    }
+    },
   },
   methods: {
     submitForm() {
@@ -52,15 +50,14 @@ export default {
     cancelEdit() {
       this.resetForm();
       this.$emit('cancel-edit');
-    }
-  }
+    },
+  },
 };
 </script>
 
-
 <style scoped>
 .form-container {
-  width:850px;
+  width: 850px;
   margin: 20px auto;
   padding: 20px;
   background: #f9f9f9;
