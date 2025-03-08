@@ -18,6 +18,10 @@
         <label for="password">Mot de passe</label>
         <input type="password" id="password" v-model="password" required />
       </div>
+      <div class="form-group">
+          <label for="confirmPassword">Confirmer le mot de passe</label>
+          <input type="password" id="confirmPassword" v-model="confirmPassword" required />
+        </div>
       <button type="submit">Créer un compte</button>
       <p v-if="message" class="message">{{ message }}</p>
     </form>
@@ -37,12 +41,18 @@ export default {
       prenom: '',
       email: '',
       password: '',
+      confirmPassword: "",
       message: '',
     };
   },
   methods: {
     async submitForm() {
+      if (this.password !== this.confirmPassword) {
+          this.message = "Les mots de passe ne correspondent pas.";
+          return;
+        }
       try {
+        
         const response = await authService.register(this.nom, this.prenom, this.email, this.password);
         this.message = 'Inscription réussie ! Redirection en cours...';
         setTimeout(() => {
