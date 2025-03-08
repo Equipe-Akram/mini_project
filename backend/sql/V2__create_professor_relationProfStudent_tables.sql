@@ -1,4 +1,4 @@
-CREATE TABLE professor (
+CREATE TABLE IF NOT EXISTS professor (
     id SERIAL PRIMARY KEY, 
     nom VARCHAR(20) NOT NULL, 
     prenom VARCHAR(20) NOT NULL, 
@@ -6,7 +6,7 @@ CREATE TABLE professor (
     password TEXT NOT null
 );
 
-CREATE TABLE professor_student (
+CREATE TABLE IF NOT EXISTS professor_student (
     professor_id INT NOT NULL,
     student_id INT NOT NULL,
     PRIMARY KEY (professor_id, student_id),

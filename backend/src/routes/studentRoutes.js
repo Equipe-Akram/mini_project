@@ -6,8 +6,8 @@ import * as inputValidator from '../middlewares/inputValidator.js'
 
 router.get('/', studentController.getAllStudents)
 router.get('/:id', studentController.getStudentById)
-router.post('/', inputValidator.studentValidation,studentController.addStudent)
-router.put('/:id', inputValidator.studentValidation,studentController.updateStudent)
+router.post('/', inputValidator.studentValidation, studentController.addStudent)
+router.put('/:id', inputValidator.studentValidation, studentController.updateStudent)
 router.delete('/:id', studentController.deleteStudent)
 
 

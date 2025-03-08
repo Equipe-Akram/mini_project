@@ -7,15 +7,8 @@ export const register = async (req, res, next) => {
     const { nom, prenom, email, password } = req.body;
     const hashedPassword = await passwordUtils.hashPassword(password)
     try {
-        const user = await authModel.register(nom, prenom, email, hashedPassword)
-        const token = jwtUtils.generateToken(user)
-
-        const refreshToken = jwtUtils.generateRefreshToken(user)
-        await Token.save(user.id, refreshToken)
-        res.cookie("refreshToken", refreshToken, {httpOnly: false, secure: false, sameSite:"None"}) 
-
+        const user = await authModel.register(nom, prenom, email, hashedPassword)  
         res.json({ message: "User registered successfully" });
-        
     } catch (error) {
         next(error)
     }
@@ -39,7 +32,7 @@ export const login = async (req, res, next) => {
         await Token.save(user.id, refreshToken)
         
         res.cookie("refreshToken", refreshToken, {httpOnly: false,maxAge: 24*60*60*1000, secure: false, sameSite:"None"})
-        res.json({ token, refreshToken })
+        res.json({ token })
 
     } catch (error) {
         next(error)
