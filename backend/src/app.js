@@ -4,8 +4,7 @@ import authRoutes from './routes/authRoutes.js'
 import studentRoutes from './routes/studentRoutes.js'
 import errorHandling from './middlewares/errorHandler.js'
 import authMiddleware from './middlewares/authMiddleware.js'
-import * as inputValidator from './middlewares/inputValidator.js'
-
+import cookieParser from 'cookie-parser'
 
 const app = express()
 
@@ -17,7 +16,7 @@ app.use(cookieParser())
 
 // Routes
 app.use('/auth', authRoutes)
-app.use('/api/students', authMiddleware, inputValidator.studentValidation, studentRoutes)
+app.use('/api/students', authMiddleware, studentRoutes)
 
 
 // error handling middleware
