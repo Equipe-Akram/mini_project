@@ -17,13 +17,14 @@ export default {
   async login(email, password) {
     try {
       const response = await authApi.post('/login', { email, password });
+      console.log(response.data);
       return response.data; 
     } catch (error) {
       throw new Error(error.response?.data?.message || "Erreur lors de la connexion");
     }
   },
 
-  /**
+  /**api/
    * Inscription d'un nouvel utilisateur
    * @param {string} nom - Le nom de l'utilisateur
    * @param {string} prenom - Le prénom de l'utilisateur
@@ -31,9 +32,9 @@ export default {
    * @param {string} password - Le mot de passe de l'utilisateur
    * @returns {Promise<Object>} - Les données de l'utilisateur créé ou une erreur
    */
-  async register(nom, prenom, email, password) {
+  async register(nom, prenom, email, password, confirmPassword) {
     try {
-      const response = await authApi.post('/register', { nom, prenom, email, password });
+      const response = await authApi.post('/register', { nom, prenom, email, password ,confirmPassword});
       return response.data; 
     } catch (error) {
       throw new Error(error.response?.data?.message || "Erreur lors de l'inscription");

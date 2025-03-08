@@ -43,7 +43,7 @@ export default {
         
         const response = await authService.login(this.email, this.password);
         const authStore = useAuthStore();
-        authStore.setTokens(response.accessToken, response.refreshToken);
+        authStore.setTokens(response.token);
 
         this.$router.push('/students');
       } catch (error) {

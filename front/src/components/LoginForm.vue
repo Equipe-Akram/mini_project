@@ -53,7 +53,7 @@ export default {
         }
       try {
         
-        const response = await authService.register(this.nom, this.prenom, this.email, this.password);
+        const response = await authService.register(this.nom, this.prenom, this.email, this.password ,this.confirmPassword);
         this.message = 'Inscription réussie ! Redirection en cours...';
         setTimeout(() => {
           this.$router.push('/auth/login');

@@ -5,24 +5,17 @@ import axios from 'axios';
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     accessToken: null, 
-    refreshToken: null, 
   }),
   actions: {
-    setTokens(accessToken, refreshToken) {
+    setTokens(accessToken) {
       this.accessToken = accessToken;
-      this.refreshToken = refreshToken;
     },
     clearTokens() {
       this.accessToken = null;
-      this.refreshToken = null;
     },
     async refreshAccessToken() {
       try {
-        const response = await axios.get('/auth/refresh', {
-          headers: {
-            Authorization: `Bearer ${this.refreshToken}`,
-          },
-        });
+        const response = await axios.get('/auth/refresh');
         this.accessToken = response.data.accessToken;
         return this.accessToken;
       } catch (error) {
