@@ -1,12 +1,14 @@
 <template>
   <div>
     <h1>Gestion des Étudiants</h1>
+
     <EtudiantForm
       @add-student="addStudent"
       @update-student="updateStudent"
       :studentToEdit="studentToEdit"
       @cancel-edit="cancelEdit"
     />
+
     <EtudiantList
       :etudiants="etudiants"
       @edit-student="editStudent"
@@ -27,44 +29,45 @@ export default {
   },
   data() {
     return {
-      etudiants: [], 
-      studentToEdit: null, 
+      etudiants: [],
+      studentToEdit: null,
     };
   },
   async created() {
-    
     await this.fetchStudents();
   },
   methods: {
-   
+  
     async fetchStudents() {
       try {
         const response = await apiService.getAllStudents();
-        this.etudiants = response.data.data; 
+        this.etudiants = response.data;
       } catch (error) {
         console.error("Erreur lors de la récupération des étudiants :", error);
       }
     },
 
+    
     async addStudent(student) {
       try {
         const response = await apiService.addStudent(student);
-        this.etudiants.push(response.data.data); 
+        this.etudiants.push(response.data); 
       } catch (error) {
         console.error("Erreur lors de l'ajout :", error);
       }
     },
 
+
     async deleteStudent(id) {
       try {
         await apiService.deleteStudent(id);
-        this.etudiants = this.etudiants.filter((etudiant) => etudiant.id !== id); 
+        this.etudiants = this.etudiants.filter((etudiant) => etudiant.id !== id);
       } catch (error) {
         console.error("Erreur lors de la suppression :", error);
       }
     },
 
-   
+
     async updateStudent(updatedStudent) {
       try {
         await apiService.updateStudent(updatedStudent.id, updatedStudent);
@@ -72,24 +75,28 @@ export default {
         if (index !== -1) {
           this.etudiants.splice(index, 1, updatedStudent); 
         }
-        this.studentToEdit = null;
+        this.studentToEdit = null; 
       } catch (error) {
         console.error("Erreur lors de la mise à jour :", error);
       }
     },
 
+   
     editStudent(student) {
       this.studentToEdit = { ...student };
     },
 
-   
+ 
     cancelEdit() {
-      this.studentToEdit = null; 
+      this.studentToEdit = null;
     },
   },
 };
 </script>
 
 <style scoped>
-
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
 </style>

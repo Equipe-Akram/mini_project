@@ -42,4 +42,47 @@ api.interceptors.response.use(
   }
 );
 
-export default api;
+
+const apiService = {
+  async getAllStudents() {
+    try {
+      const response = await api.get('/students');
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des étudiants :', error);
+      throw new Error('Impossible de récupérer les étudiants.');
+    }
+  },
+
+  async addStudent(student) {
+    try {
+      const response = await api.post('/students', student);
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de l'ajout de l'étudiant :", error);
+      throw new Error("Vérifiez les données de l'étudiant.");
+    }
+  },
+
+  async updateStudent(id, student) {
+    try {
+      const response = await api.put(`/students/${id}`, student);
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour :", error);
+      throw new Error("Impossible de mettre à jour.");
+    }
+  },
+
+  async deleteStudent(id) {
+    try {
+      await api.delete(`/students/${id}`);
+      return true;
+    } catch (error) {
+      console.error("Erreur lors de la suppression :", error);
+      throw new Error("Échec de la suppression.");
+    }
+  },
+};
+
+export default apiService;

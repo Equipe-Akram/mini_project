@@ -27,8 +27,8 @@
           <td>{{ etudiant.prenom }}</td>
           <td>{{ etudiant.note }}</td>
           <td>
-            <button @click="$emit('edit-student', etudiant)">Modifier</button>
-            <button @click="$emit('delete-student', etudiant.id)">Supprimer</button>
+            <button class="edit-btn" @click="$emit('edit-student', etudiant)">Modifier</button>
+            <button class="delete-btn" @click="$emit('delete-student', etudiant.id)">Supprimer</button>
           </td>
         </tr>
       </tbody>
@@ -50,7 +50,10 @@ export default {
     sortedEtudiants() {
       if (!this.sortKey) return this.etudiants;
       return [...this.etudiants].sort((a, b) => {
-        return a[this.sortKey] > b[this.sortKey] ? 1 : -1;
+        if (this.sortKey === 'note') {
+          return a.note - b.note;
+        }
+        return a[this.sortKey].localeCompare(b[this.sortKey]);
       });
     },
   },
